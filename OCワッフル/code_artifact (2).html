@@ -1,0 +1,771 @@
+<!DOCTYPE html>
+<html lang="ja" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OCワッフル | 文化祭・オープンキャンパス企画</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- FontAwesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;800;900&family=Noto+Serif+JP:wght@400;600;700;900&family=Plus+Jakarta+Sans:wght@400;600;800&display=swap" rel="stylesheet">
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        dark: {
+                            950: '#0a0a0a',
+                            900: '#121212',
+                            800: '#1e1e1e',
+                            700: '#2a2a2a',
+                            600: '#3a3a3a'
+                        },
+                        amber: {
+                            400: '#fbbf24',
+                            500: '#f59e0b',
+                            600: '#d97706',
+                            700: '#b45309',
+                            800: '#92400e'
+                        },
+                        gold: {
+                            300: '#fef08a',
+                            400: '#facc15',
+                            500: '#eab308',
+                            600: '#ca8a04'
+                        }
+                    },
+                    fontFamily: {
+                        serif: ['"Noto Serif JP"', 'serif'],
+                        cinzel: ['"Cinzel"', 'serif'],
+                        sans: ['"Plus Jakarta Sans"', 'sans-serif']
+                    }
+                }
+            }
+        }
+    </script>
+    
+    <style>
+        body {
+            font-family: 'Noto Serif JP', serif;
+            background-color: #0a0a0a;
+            color: #e5e5e5;
+        }
+
+        .gold-gradient-text {
+            background: linear-gradient(135deg, #fef08a 0%, #f59e0b 50%, #d97706 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .gold-border-glow {
+            border: 1px solid rgba(245, 158, 11, 0.3);
+            box-shadow: 0 0 25px rgba(245, 158, 11, 0.12);
+        }
+
+        .gold-border-glow:hover {
+            border-color: rgba(245, 158, 11, 0.7);
+            box-shadow: 0 0 30px rgba(245, 158, 11, 0.25);
+        }
+
+        .dark-glass {
+            background: rgba(18, 18, 18, 0.85);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+        }
+
+        .hero-pattern {
+            background-image: radial-gradient(rgba(245, 158, 11, 0.15) 1px, transparent 1px);
+            background-size: 32px 32px;
+        }
+
+        .image-overlay-gradient {
+            background: linear-gradient(to top, #0a0a0a 0%, rgba(10, 10, 10, 0.6) 50%, rgba(10, 10, 10, 0.3) 100%);
+        }
+    </style>
+</head>
+<body class="bg-dark-950 text-neutral-200 antialiased selection:bg-amber-600 selection:text-white">
+
+    <!-- ヘッダー / ナビゲーション -->
+    <header class="fixed top-0 left-0 right-0 z-50 dark-glass border-b border-neutral-800/80">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
+            <a href="#" class="flex items-center gap-3 group">
+                <div class="w-10 h-10 rounded-lg bg-gradient-to-br from-amber-500 to-amber-700 flex items-center justify-center text-dark-950 shadow-lg group-hover:scale-105 transition-transform">
+                    <i class="fa-solid fa-stroopwafel text-xl"></i>
+                </div>
+                <div>
+                    <span class="block text-[10px] font-sans tracking-[0.2em] font-extrabold text-amber-500 uppercase">CULTURE FESTIVAL & OC</span>
+                    <span class="block text-lg font-bold text-white tracking-widest leading-none">OCワッフル</span>
+                </div>
+            </a>
+            
+            <nav class="hidden md:flex items-center gap-8 font-sans text-xs tracking-widest text-neutral-300 font-semibold uppercase">
+                <a href="#menu" class="hover:text-amber-400 transition-colors">自慢のメニュー</a>
+                <a href="#concept" class="hover:text-amber-400 transition-colors">学生たちの挑戦</a>
+                <a href="#commitments" class="hover:text-amber-400 transition-colors">4つの理由</a>
+                <a href="#quiz" class="hover:text-amber-400 transition-colors">好み診断</a>
+                <a href="#access" class="hover:text-amber-400 transition-colors">ブース案内</a>
+            </nav>
+
+            <a href="#access" class="bg-gradient-to-r from-amber-600 to-amber-500 hover:from-amber-500 hover:to-amber-400 text-dark-950 font-sans font-extrabold text-xs tracking-wider px-5 py-3 rounded-full shadow-lg hover:shadow-amber-500/20 transition-all transform hover:-translate-y-0.5 flex items-center gap-2">
+                <i class="fa-solid fa-location-dot text-sm"></i>
+                <span>ブースマップを見る</span>
+            </a>
+        </div>
+    </header>
+
+    <main class="pt-20">
+        <!-- ヒーローセクション (本格派ワッフル写真メイン) -->
+        <section class="relative min-h-[65vh] flex items-center justify-center overflow-hidden py-10 px-4">
+            
+            <!-- 背景大型高解像度画像 ＆ シネマティックオーバーレイ -->
+            <div class="absolute inset-0 z-0">
+                <img src="https://images.unsplash.com/photo-1562376552-0d160a2f238d?auto=format&fit=crop&w=2000&q=85" 
+                     alt="出来立てのクラフトワッフル" 
+                     class="w-full h-full object-cover object-center scale-105 filter brightness-75 contrast-125"
+                     onerror="this.src='https://placehold.co/1920x1080/1a1a1a/f59e0b?text=Fresh+Baked+Craft+Waffle'">
+                <div class="absolute inset-0 image-overlay-gradient"></div>
+                <div class="absolute inset-0 hero-pattern opacity-40"></div>
+            </div>
+
+            <div class="relative z-10 max-w-5xl mx-auto text-center space-y-5 mt-2">
+                
+                <!-- バッジ -->
+                <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-dark-900/90 border border-amber-500/40 text-amber-400 text-xs font-sans font-bold tracking-widest uppercase backdrop-blur-md shadow-xl">
+                    <span class="w-2 h-2 rounded-full bg-amber-400 animate-ping"></span>
+                    <span>文化祭・オープンキャンパス企画「OCワッフル」</span>
+                </div>
+                
+                <!-- メインコピー -->
+                <div class="space-y-3">
+                    <h1 class="text-2xl sm:text-4xl lg:text-6xl font-extrabold text-white leading-tight tracking-tight">
+                        妥協なき食感、<br>
+                        <span class="gold-gradient-text">学生が創り上げた「本物の味」</span>を。
+                    </h1>
+                    <p class="text-neutral-300 font-sans text-xs sm:text-base max-w-2xl mx-auto leading-relaxed pt-1">
+                        生地の配合、発酵温度、焼き加減からWeb制作まで。<br class="hidden sm:inline">
+                        文化祭のために学生有志が結集して企画した特製ワッフル専門店です。
+                    </p>
+                </div>
+
+                <!-- アクションボタン -->
+                <div class="pt-2 flex flex-col sm:flex-row items-center justify-center gap-3 font-sans">
+                    <a href="#menu" class="w-full sm:w-auto px-6 py-3 bg-gradient-to-r from-amber-500 to-amber-600 hover:from-amber-400 hover:to-amber-500 text-dark-950 font-extrabold text-xs tracking-wider uppercase rounded-xl shadow-2xl transition-all transform hover:-translate-y-1 flex items-center justify-center gap-2">
+                        <i class="fa-solid fa-cookie-bite text-sm"></i>
+                        <span>全5種類のメニューを見る</span>
+                    </a>
+                    <a href="#concept" class="w-full sm:w-auto px-6 py-3 bg-dark-900/80 hover:bg-dark-800 text-white border border-neutral-700 font-bold text-xs tracking-wider rounded-xl transition-all flex items-center justify-center gap-2 backdrop-blur-md">
+                        <i class="fa-solid fa-graduation-cap text-amber-500"></i>
+                        <span>学生プロデュースのこだわり</span>
+                    </a>
+                </div>
+
+                <!-- クイックハイライト -->
+                <div class="pt-4 grid grid-cols-2 md:grid-cols-4 gap-3 max-w-4xl mx-auto font-sans">
+                    <div class="p-3 rounded-xl bg-dark-900/80 border border-neutral-800/80 backdrop-blur-sm">
+                        <div class="text-amber-400 font-extrabold text-lg sm:text-xl font-cinzel">100%</div>
+                        <div class="text-[11px] text-neutral-400 mt-0.5">学生完全手作り</div>
+                    </div>
+                    <div class="p-3 rounded-xl bg-dark-900/80 border border-neutral-800/80 backdrop-blur-sm">
+                        <div class="text-amber-400 font-extrabold text-lg sm:text-xl font-cinzel">5 VARIETIES</div>
+                        <div class="text-[11px] text-neutral-400 mt-0.5">選べる本格5つの味</div>
+                    </div>
+                    <div class="p-3 rounded-xl bg-dark-900/80 border border-neutral-800/80 backdrop-blur-sm">
+                        <div class="text-amber-400 font-extrabold text-lg sm:text-xl font-cinzel">180℃</div>
+                        <div class="text-[11px] text-neutral-400 mt-0.5">注文後焼き上げる熱々食感</div>
+                    </div>
+                    <div class="p-3 rounded-xl bg-dark-900/80 border border-neutral-800/80 backdrop-blur-sm">
+                        <div class="text-amber-400 font-extrabold text-lg sm:text-xl font-cinzel">¥250〜</div>
+                        <div class="text-[11px] text-neutral-400 mt-0.5">学祭だけの限定感謝価格</div>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- 【2ページ目】メニューセクション (ヒーローの直後に配置) -->
+        <section id="menu" class="py-24 bg-dark-900 border-t border-neutral-800 relative">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 space-y-16">
+                
+                <div class="text-center max-w-3xl mx-auto space-y-4">
+                    <span class="text-amber-500 font-sans font-extrabold text-xs tracking-[0.3em] uppercase">SPECIAL MENU LINEUP</span>
+                    <h2 class="text-3xl sm:text-5xl font-extrabold text-white">
+                        OCワッフル 自慢の5つの味
+                    </h2>
+                    <p class="text-neutral-400 font-sans text-sm sm:text-base">
+                        学生開発チームが試作を繰り返し完成させた全5種類のフレーバー。出来立ての香ばしさと共にお届けします。
+                    </p>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-6">
+                    
+                    <!-- 1. バター -->
+                    <div class="bg-dark-950 rounded-2xl overflow-hidden border border-neutral-800 gold-border-glow transition-all duration-300 flex flex-col justify-between group">
+                        <div>
+                            <div class="relative h-48 overflow-hidden">
+                                <img src="images/butter.jpg" 
+                                     alt="極上発酵バター" 
+                                     class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500 filter brightness-90">
+                                <span class="absolute top-3 left-3 bg-amber-500 text-dark-950 font-sans font-black text-[10px] tracking-wider px-2.5 py-1 rounded-full uppercase">
+                                    人気No.1王道
+                                </span>
+                            </div>
+                            <div class="p-5 space-y-2">
+                                <span class="text-amber-500 text-[11px] font-sans font-bold">Classic Fermented Butter</span>
+                                <h3 class="text-lg font-bold text-white">発酵バター</h3>
+                                <p class="text-xs text-neutral-400 font-sans leading-relaxed">
+                                    北海道産発酵バターの豊かなコクと、ベルギー産パールシュガーのシャリッとした食感が引き立つ定番。
+                                </p>
+                            </div>
+                        </div>
+                        <div class="p-5 border-t border-neutral-900 flex items-center justify-between font-sans">
+                            <span class="text-[11px] text-neutral-500 font-semibold">税込価格</span>
+                            <span class="text-xl font-extrabold gold-gradient-text font-cinzel">¥250</span>
+                        </div>
+                    </div>
+
+                    <!-- 2. チョコ -->
+                    <div class="bg-dark-950 rounded-2xl overflow-hidden border border-neutral-800 gold-border-glow transition-all duration-300 flex flex-col justify-between group">
+                        <div>
+                            <div class="relative h-48 overflow-hidden">
+                                <img src="images/chocolate.jpg" 
+                                     alt="ベルギーチョコ" 
+                                     class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500 filter brightness-90"
+                                     onerror="this.src='https://placehold.co/600x400/121212/f59e0b?text=Chocolate'">
+                                <span class="absolute top-3 left-3 bg-amber-600 text-white font-sans font-black text-[10px] tracking-wider px-2.5 py-1 rounded-full uppercase">
+                                    濃厚贅沢
+                                </span>
+                            </div>
+                            <div class="p-5 space-y-2">
+                                <span class="text-amber-500 text-[11px] font-sans font-bold">Belgian Chocolate</span>
+                                <h3 class="text-lg font-bold text-white">チョコ</h3>
+                                <p class="text-xs text-neutral-400 font-sans leading-relaxed">
+                                    熱々の生地に溶け込む濃厚ベルギー産クーベルチュールチョコレート。リッチな甘さが口いっぱいに広がります。
+                                </p>
+                            </div>
+                        </div>
+                        <div class="p-5 border-t border-neutral-900 flex items-center justify-between font-sans">
+                            <span class="text-[11px] text-neutral-500 font-semibold">税込価格</span>
+                            <span class="text-xl font-extrabold gold-gradient-text font-cinzel">¥300</span>
+                        </div>
+                    </div>
+
+                    <!-- 3. 抹茶 -->
+                    <div class="bg-dark-950 rounded-2xl overflow-hidden border border-neutral-800 gold-border-glow transition-all duration-300 flex flex-col justify-between group">
+                        <div>
+                            <div class="relative h-48 overflow-hidden">
+                                <img src="images/matcha.jpg" 
+                                     alt="宇治抹茶" 
+                                     class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500 filter brightness-90"
+                                     onerror="this.src='https://placehold.co/600x400/121212/f59e0b?text=Matcha'">
+                                <span class="absolute top-3 left-3 bg-emerald-700 text-white font-sans font-black text-[10px] tracking-wider px-2.5 py-1 rounded-full uppercase">
+                                    和の極み
+                                </span>
+                            </div>
+                        
+                            <div class="p-5 space-y-2">
+                                <span class="text-amber-500 text-[11px] font-sans font-bold">Uji Matcha & Azuki</span>
+                                <h3 class="text-lg font-bold text-white">抹茶</h3>
+                                <p class="text-xs text-neutral-400 font-sans leading-relaxed">
+                                    京都宇治抹茶の本格的な香りとほろ苦さ。ふっくら煮上げた北海道産あずきとの相性が抜群です。
+                                </p>
+                            </div>
+                        </div>
+                        <div class="p-5 border-t border-neutral-900 flex items-center justify-between font-sans">
+                            <span class="text-[11px] text-neutral-500 font-semibold">税込価格</span>
+                            <span class="text-xl font-extrabold gold-gradient-text font-cinzel">¥300</span>
+                        </div>
+                    </div>
+
+                    <!-- 4. キャラメル -->
+                    <div class="bg-dark-950 rounded-2xl overflow-hidden border border-neutral-800 gold-border-glow transition-all duration-300 flex flex-col justify-between group">
+                        <div>
+                            <div class="relative h-48 overflow-hidden">
+                                <img src="images/caramel.jpg"
+                                     class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500 filter brightness-90"
+                                     onerror="this.src='https://placehold.co/600x400/121212/f59e0b?text=Caramel'">
+                                <span class="absolute top-3 left-3 bg-amber-700 text-white font-sans font-black text-[10px] tracking-wider px-2.5 py-1 rounded-full uppercase">
+                                    香ばしさ満点
+                                </span>
+                            </div>
+                            <div class="p-5 space-y-2">
+                                <span class="text-amber-500 text-[11px] font-sans font-bold">Burnt Caramel</span>
+                                <h3 class="text-lg font-bold text-white">キャラメル</h3>
+                                <p class="text-xs text-neutral-400 font-sans leading-relaxed">
+                                    香ばしく焦がした特製キャラメルソースとシナモンの華やかな香り。甘さとほろ苦さの黄金バランス。
+                                </p>
+                            </div>
+                        </div>
+                        <div class="p-5 border-t border-neutral-900 flex items-center justify-between font-sans">
+                            <span class="text-[11px] text-neutral-500 font-semibold">税込価格</span>
+                            <span class="text-xl font-extrabold gold-gradient-text font-cinzel">¥300</span>
+                        </div>
+                    </div>
+
+                    <!-- 5. ストロベリー (新規追加) -->
+                    <div class="bg-dark-950 rounded-2xl overflow-hidden border border-neutral-800 gold-border-glow transition-all duration-300 flex flex-col justify-between group">
+                        <div>
+                            <div class="relative h-48 overflow-hidden">
+                                <img src="images/strawberry.jpg" 
+                                     alt="完熟ストロベリー" 
+                                     class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500 filter brightness-90"
+                                     onerror="this.src='https://placehold.co/600x400/121212/f59e0b?text=Strawberry'">
+                                <span class="absolute top-3 left-3 bg-rose-600 text-white font-sans font-black text-[10px] tracking-wider px-2.5 py-1 rounded-full uppercase">
+                                    甘酸っぱい人気作
+                                </span>
+                            </div>
+                            <div class="p-5 space-y-2">
+                                <span class="text-rose-400 text-[11px] font-sans font-bold">Ripe Strawberry</span>
+                                <h3 class="text-lg font-bold text-white">ストロベリー</h3>
+                                <p class="text-xs text-neutral-400 font-sans leading-relaxed">
+                                    甘酸っぱい苺果肉たっぷりのソースとホワイトチョコの組み合わせ。華やかな彩りと爽やかな甘み。
+                                </p>
+                            </div>
+                        </div>
+                        <div class="p-5 border-t border-neutral-900 flex items-center justify-between font-sans">
+                            <span class="text-[11px] text-neutral-500 font-semibold">税込価格</span>
+                            <span class="text-xl font-extrabold gold-gradient-text font-cinzel">¥320</span>
+                        </div>
+                    </div>
+
+                </div>
+
+            </div>
+        </section>
+
+        <!-- 学生のプロジェクトストーリー（コンセプト） -->
+        <section id="concept" class="py-24 bg-dark-950 border-t border-neutral-800 relative">
+            <div class="max-w-6xl mx-auto px-4 sm:px-6">
+                
+                <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+                    
+                    <!-- 左側：キャッチとテキスト -->
+                    <div class="lg:col-span-7 space-y-6">
+                        <div class="inline-block px-3 py-1 rounded bg-amber-500/10 border border-amber-500/30 text-amber-400 text-xs font-sans font-bold tracking-widest uppercase">
+                            OUR COMMITMENT & PASSION
+                        </div>
+                        
+                        <h2 class="text-2xl sm:text-4xl font-extrabold text-white leading-tight">
+                            企画・広報・Web開発から味の追求まで。<br>
+                            <span class="gold-gradient-text">「OCワッフル」を学生の手で創る理由。</span>
+                        </h2>
+                        
+                        <div class="space-y-4 text-neutral-300 text-sm sm:text-base leading-relaxed font-sans">
+                            <p>
+                                文化祭に来てくださるみなさまに「本当に美味しい一品」と「楽しい大学生活の雰囲気」を感じてほしい——そんな想いから「OCワッフル」はスタートしました。
+                            </p>
+                            <p>
+                                市販の生地に頼らず、北海道産小麦の配合や発酵時間、プレス機の温度管理まで何度も実験。5つの個性豊かなフレーバー（バター、チョコ、抹茶、キャラメル、ストロベリー）をゼロから生み出しました。
+                            </p>
+                            <p class="text-neutral-200 font-semibold border-l-2 border-amber-500 pl-4 py-1">
+                                店舗の企画運営だけでなく、この特設サイトの制作やブース装飾まで全て学生が行なっています。私たちの本気をぜひ味わってください！
+                            </p>
+                        </div>
+
+                        <div class="pt-4 grid grid-cols-1 sm:grid-cols-3 gap-4 font-sans">
+                            <div class="p-4 rounded-xl bg-dark-900 border border-neutral-800">
+                                <i class="fa-solid fa-wheat-awn text-amber-500 text-xl mb-2"></i>
+                                <h3 class="text-sm font-bold text-white">厳選された素材</h3>
+                                <p class="text-xs text-neutral-400 mt-1">発酵バターとベルギー産パールシュガーを使用</p>
+                            </div>
+                            <div class="p-4 rounded-xl bg-dark-900 border border-neutral-800">
+                                <i class="fa-solid fa-fire text-amber-500 text-xl mb-2"></i>
+                                <h3 class="text-sm font-bold text-white">注文毎の最終焼き</h3>
+                                <p class="text-xs text-neutral-400 mt-1">作り置きゼロ。常に香ばしく熱々の食感を</p>
+                            </div>
+                            <div class="p-4 rounded-xl bg-dark-900 border border-neutral-800">
+                                <i class="fa-solid fa-code text-amber-500 text-xl mb-2"></i>
+                                <h3 class="text-sm font-bold text-white">完全学生プロデュース</h3>
+                                <p class="text-xs text-neutral-400 mt-1">Webサイト構築から接客まで一貫プロデュース</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 右側：ビジュアルカード（写真付き） -->
+                    <div class="lg:col-span-5 relative">
+                        <div class="relative rounded-2xl overflow-hidden gold-border-glow bg-dark-900 p-2">
+                            <div class="relative h-96 rounded-xl overflow-hidden">
+                                <img src="https://images.unsplash.com/photo-1598214886806-c87b84b7078b?auto=format&fit=crop&w=1000&q=80" 
+                                     alt="ワッフルを焼く様子" 
+                                     class="w-full h-full object-cover filter brightness-90 contrast-110"
+                                     onerror="this.src='https://placehold.co/800x1000/121212/f59e0b?text=Waffle+Making'">
+                                <div class="absolute inset-0 bg-gradient-to-t from-dark-950 via-transparent to-transparent"></div>
+                                <div class="absolute bottom-6 left-6 right-6 space-y-2">
+                                    <span class="text-amber-400 text-xs font-sans font-bold tracking-widest uppercase">O-Camp Waffle Booth</span>
+                                    <h3 class="text-xl font-bold text-white">甘い香りが包む文化祭キャンパス</h3>
+                                    <p class="text-xs text-neutral-300 font-sans">当日は中央広場ブースにて、笑顔の学生スタッフが焼き立てをご用意しています！</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+            </div>
+        </section>
+
+        <!-- なぜ今買うべきか？ 4つのメリット -->
+        <section id="commitments" class="py-24 px-4 sm:px-6 relative">
+            <div class="max-w-6xl mx-auto space-y-16">
+                
+                <div class="text-center max-w-3xl mx-auto space-y-4">
+                    <span class="text-amber-500 font-sans font-extrabold text-xs tracking-[0.3em] uppercase">WHY YOU SHOULD TRY</span>
+                    <h2 class="text-3xl sm:text-5xl font-extrabold text-white">
+                        OCワッフルを味わう<span class="gold-gradient-text">4つの価値</span>
+                    </h2>
+                    <p class="text-neutral-400 font-sans text-sm sm:text-base">
+                        カフェや専門店のクオリティを、学祭の特別空間で。
+                    </p>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                    
+                    <!-- メリット1 -->
+                    <div class="p-8 rounded-2xl bg-dark-900 border border-neutral-800 gold-border-glow transition-all duration-300 flex flex-col justify-between space-y-6">
+                        <div class="space-y-4">
+                            <div class="w-14 h-14 rounded-xl bg-gradient-to-br from-amber-500/20 to-amber-700/10 border border-amber-500/40 text-amber-400 flex items-center justify-center text-2xl">
+                                <i class="fa-solid fa-fire"></i>
+                            </div>
+                            <span class="text-xs font-sans font-bold text-amber-500 tracking-widest uppercase block">VALUE 01</span>
+                            <h3 class="text-2xl font-bold text-white">外はカリッ、中は驚くほどモチモチ</h3>
+                            <p class="text-neutral-300 font-sans text-sm leading-relaxed">
+                                発酵時間を緻密に計算した極上生地を使用。専用のプレス機で急速に焼き上げることで、外側の香ばしいクリスピー感と内部の濃密なモチモチ食感を見事に共存させました。
+                            </p>
+                        </div>
+                        <div class="pt-4 border-t border-neutral-800/80 flex items-center gap-2 text-xs text-neutral-400 font-sans">
+                            <i class="fa-solid fa-circle-check text-amber-500"></i>
+                            <span>注文を受けてから最終焼き上げを実施</span>
+                        </div>
+                    </div>
+
+                    <!-- メリット2 -->
+                    <div class="p-8 rounded-2xl bg-dark-900 border border-neutral-800 gold-border-glow transition-all duration-300 flex flex-col justify-between space-y-6">
+                        <div class="space-y-4">
+                            <div class="w-14 h-14 rounded-xl bg-gradient-to-br from-amber-500/20 to-amber-700/10 border border-amber-500/40 text-amber-400 flex items-center justify-center text-2xl">
+                                <i class="fa-solid fa-award"></i>
+                            </div>
+                            <span class="text-xs font-sans font-bold text-amber-500 tracking-widest uppercase block">VALUE 02</span>
+                            <h3 class="text-2xl font-bold text-white">芳醇な国産発酵バター100%使用</h3>
+                            <p class="text-neutral-300 font-sans text-sm leading-relaxed">
+                                口に入れた瞬間に広がるリッチな風味。一般的なマーガリン等は使用せず、風味豊かな純国産の発酵バターとベルギー産パールシュガーを贅沢に織り込んでいます。
+                            </p>
+                        </div>
+                        <div class="pt-4 border-t border-neutral-800/80 flex items-center gap-2 text-xs text-neutral-400 font-sans">
+                            <i class="fa-solid fa-circle-check text-amber-500"></i>
+                            <span>シャリッとしたパールシュガーの余韻</span>
+                        </div>
+                    </div>
+
+                    <!-- メリット3 -->
+                    <div class="p-8 rounded-2xl bg-dark-900 border border-neutral-800 gold-border-glow transition-all duration-300 flex flex-col justify-between space-y-6">
+                        <div class="space-y-4">
+                            <div class="w-14 h-14 rounded-xl bg-gradient-to-br from-amber-500/20 to-amber-700/10 border border-amber-500/40 text-amber-400 flex items-center justify-center text-2xl">
+                                <i class="fa-solid fa-tag"></i>
+                            </div>
+                            <span class="text-xs font-sans font-bold text-amber-500 tracking-widest uppercase block">VALUE 03</span>
+                            <h3 class="text-2xl font-bold text-white">本格カフェクオリティを特別価格で</h3>
+                            <p class="text-neutral-300 font-sans text-sm leading-relaxed">
+                                通常の専門店では500円〜700円相当の本格派スイーツを、学業成果の発表イベントとして原価ギリギリの250円〜で還元。今だけの圧倒的コストパフォーマンスです。
+                            </p>
+                        </div>
+                        <div class="pt-4 border-t border-neutral-800/80 flex items-center gap-2 text-xs text-neutral-400 font-sans">
+                            <i class="fa-solid fa-circle-check text-amber-500"></i>
+                            <span>順煌祭来場者限定還元価格</span>
+                        </div>
+                    </div>
+
+                    <!-- メリット4 -->
+                    <div class="p-8 rounded-2xl bg-dark-900 border border-neutral-800 gold-border-glow transition-all duration-300 flex flex-col justify-between space-y-6">
+                        <div class="space-y-4">
+                            <div class="w-14 h-14 rounded-xl bg-gradient-to-br from-amber-500/20 to-amber-700/10 border border-amber-500/40 text-amber-400 flex items-center justify-center text-2xl">
+                                <i class="fa-solid fa-comments"></i>
+                            </div>
+                            <span class="text-xs font-sans font-bold text-amber-500 tracking-widest uppercase block">VALUE 04</span>
+                            <h3 class="text-2xl font-bold text-white">学生スタッフとのリアルな交流体験</h3>
+                            <p class="text-neutral-300 font-sans text-sm leading-relaxed">
+                                焼き上がりを待つ間や購入時には、大学生活・学科の雰囲気・入試のリアルな体験談などを学生から直接聞くことができます。
+                            </p>
+                        </div>
+                        <div class="pt-4 border-t border-neutral-800/80 flex items-center gap-2 text-xs text-neutral-400 font-sans">
+                            <i class="fa-solid fa-circle-check text-amber-500"></i>
+                            <span>学生スタッフとのリアルな交流体験はここだけ</span>
+                        </div>
+                    </div>
+
+                </div>
+
+            </div>
+        </section>
+
+        <!-- おすすめワッフル診断 -->
+        <section id="quiz" class="py-24 px-4 sm:px-6 relative">
+            <div class="max-w-4xl mx-auto">
+                
+                <div class="p-8 sm:p-12 rounded-3xl bg-dark-900 border border-neutral-800 shadow-2xl relative overflow-hidden gold-border-glow">
+                    <div class="absolute -right-12 -bottom-12 opacity-5 text-9xl text-amber-500">
+                        <i class="fa-solid fa-cookie-bite"></i>
+                    </div>
+
+                    <div class="relative z-10 space-y-8 text-center font-sans">
+                        <div class="space-y-2">
+                            <span class="px-3 py-1 rounded-full bg-amber-500/10 border border-amber-500/30 text-amber-400 text-xs font-bold tracking-widest uppercase">
+                                10秒直感診断
+                            </span>
+                            <h2 class="text-2xl sm:text-4xl font-extrabold text-white">
+                                あなたの気分に合ったOCワッフルを診断
+                            </h2>
+                            <p class="text-xs sm:text-sm text-neutral-400 max-w-lg mx-auto">
+                                5つの味の中から、いまの気分にぴったりのOCワッフルをおすすめします。
+                            </p>
+                        </div>
+
+                        <!-- クイズボタン -->
+                        <div id="quiz-options" class="space-y-3 max-w-xl mx-auto">
+                            <button onclick="diagnose('butter')" class="w-full p-4 rounded-xl bg-dark-950 hover:bg-neutral-800 border border-neutral-800 text-left text-sm font-semibold text-neutral-200 transition-all flex items-center justify-between group">
+                                <span>✨ バター本来の豊かなコクとシンプルな香ばしさを楽しみたい</span>
+                                <i class="fa-solid fa-arrow-right text-amber-500 opacity-0 group-hover:opacity-100 transition-opacity"></i>
+                            </button>
+                            <button onclick="diagnose('choco')" class="w-full p-4 rounded-xl bg-dark-950 hover:bg-neutral-800 border border-neutral-800 text-left text-sm font-semibold text-neutral-200 transition-all flex items-center justify-between group">
+                                <span>🍫 とろ〜り濃厚なチョコレートに満たされたい！</span>
+                                <i class="fa-solid fa-arrow-right text-amber-500 opacity-0 group-hover:opacity-100 transition-opacity"></i>
+                            </button>
+                            <button onclick="diagnose('matcha')" class="w-full p-4 rounded-xl bg-dark-950 hover:bg-neutral-800 border border-neutral-800 text-left text-sm font-semibold text-neutral-200 transition-all flex items-center justify-between group">
+                                <span>🍵 抹茶のほろ苦さと上品なあずきの組み合わせが好き</span>
+                                <i class="fa-solid fa-arrow-right text-amber-500 opacity-0 group-hover:opacity-100 transition-opacity"></i>
+                            </button>
+                            <button onclick="diagnose('caramel')" class="w-full p-4 rounded-xl bg-dark-950 hover:bg-neutral-800 border border-neutral-800 text-left text-sm font-semibold text-neutral-200 transition-all flex items-center justify-between group">
+                                <span>🍯 焦がしキャラメルとシナモンの香ばしさに惹かれる</span>
+                                <i class="fa-solid fa-arrow-right text-amber-500 opacity-0 group-hover:opacity-100 transition-opacity"></i>
+                            </button>
+                            <button onclick="diagnose('strawberry')" class="w-full p-4 rounded-xl bg-dark-950 hover:bg-neutral-800 border border-neutral-800 text-left text-sm font-semibold text-neutral-200 transition-all flex items-center justify-between group">
+                                <span>🍓 甘酸っぱいイチゴとフルーティーな甘みを味わいたい</span>
+                                <i class="fa-solid fa-arrow-right text-amber-500 opacity-0 group-hover:opacity-100 transition-opacity"></i>
+                            </button>
+                        </div>
+
+                        <!-- 結果表示エリア -->
+                        <div id="quiz-result" class="hidden p-6 rounded-2xl bg-dark-950 border border-amber-500/40 text-left space-y-4 animate-fade-in">
+                            <div class="flex items-center gap-2 text-xs font-bold text-amber-500 uppercase tracking-widest">
+                                <i class="fa-solid fa-sparkles"></i>
+                                <span>あなたへのおすすめOCワッフル</span>
+                            </div>
+                            <h3 id="result-name" class="text-2xl font-bold text-white font-serif"></h3>
+                            <p id="result-desc" class="text-xs sm:text-sm text-neutral-300 leading-relaxed font-sans"></p>
+                            <div class="pt-2 flex flex-wrap gap-4">
+                                <a href="#access" class="px-5 py-2.5 bg-amber-500 hover:bg-amber-400 text-dark-950 text-xs font-extrabold rounded-lg transition-colors">
+                                    ブースでこの味を注文する
+                                </a>
+                                <button onclick="resetDiagnosis()" class="px-5 py-2.5 bg-neutral-800 hover:bg-neutral-700 text-neutral-300 text-xs font-semibold rounded-lg transition-colors">
+                                    もう一度試す
+                                </button>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- ブース案内＆オープンキャンパス情報 -->
+        <section id="access" class="py-24 bg-dark-900 border-t border-neutral-800 px-4 sm:px-6">
+            <div class="max-w-6xl mx-auto space-y-16">
+                
+                <div class="text-center max-w-3xl mx-auto space-y-4">
+                    <span class="text-amber-500 font-sans font-extrabold text-xs tracking-[0.3em] uppercase">EVENT & LOCATION</span>
+                    <h2 class="text-3xl sm:text-5xl font-extrabold text-white">
+                        出店ブースのご案内
+                    </h2>
+                    <p class="text-neutral-400 font-sans text-sm sm:text-base">
+                        キャンパス中央広場にて、甘い香りをたどってお越しください。
+                    </p>
+                </div>
+
+                <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-stretch">
+                    
+                    <!-- 左：インフォメーション -->
+                    <div class="lg:col-span-6 p-8 rounded-2xl bg-dark-950 border border-neutral-800 space-y-6 flex flex-col justify-between font-sans">
+                        <div class="space-y-6">
+                            <div class="flex items-start gap-4">
+                                <div class="w-12 h-12 rounded-xl bg-amber-500/10 text-amber-400 flex items-center justify-center text-xl flex-shrink-0 border border-amber-500/30">
+                                    <i class="fa-solid fa-calendar-check"></i>
+                                </div>
+                                <div class="space-y-1">
+                                    <div class="text-xs text-neutral-400 font-bold">開催日時</div>
+                                    <div class="text-lg font-bold text-white">順煌祭当日 10:00 - 16:00</div>
+                                    <div class="text-xs text-amber-500">※毎時 00分 / 30分 に出来たて熱々が焼き上がります！</div>
+                                </div>
+                            </div>
+
+                            <div class="flex items-start gap-4">
+                                <div class="w-12 h-12 rounded-xl bg-amber-500/10 text-amber-400 flex items-center justify-center text-xl flex-shrink-0 border border-amber-500/30">
+                                    <i class="fa-solid fa-map-pin"></i>
+                                </div>
+                                <div class="space-y-1">
+                                    <div class="text-xs text-neutral-400 font-bold">出店場所</div>
+                                    <div class="text-lg font-bold text-white">キャンパス中央広場 【学生特設ブース No.04】</div>
+                                    <div class="text-xs text-neutral-400">時計台前メインストリートすぐ</div>
+                                </div>
+                            </div>
+
+                            <div class="flex items-start gap-4">
+                                <div class="w-12 h-12 rounded-xl bg-amber-500/10 text-amber-400 flex items-center justify-center text-xl flex-shrink-0 border border-amber-500/30">
+                                    <i class="fa-solid fa-shield-heart"></i>
+                                </div>
+                                <div class="space-y-1">
+                                    <div class="text-xs text-neutral-400 font-bold">アレルギー対応・ご注意</div>
+                                    <div class="text-xs text-neutral-300 leading-relaxed">
+                                        特定原材料（小麦、乳成分、卵、大豆）を使用しています。数量限定のため、売り切れ次第終了となりますのでお早めのお越しをお待ちしております。
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="pt-6 border-t border-neutral-900">
+                            <button onclick="copyLocationInfo()" class="w-full py-4 bg-gradient-to-r from-amber-600 to-amber-500 hover:from-amber-500 hover:to-amber-400 text-dark-950 font-extrabold text-xs tracking-wider uppercase rounded-xl transition-all shadow-lg flex items-center justify-center gap-2">
+                                <i class="fa-solid fa-copy text-sm"></i>
+                                <span id="copy-btn-label">ブース情報をコピーする</span>
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- 右：スタイリッシュ簡易マップ -->
+                    <div class="lg:col-span-6 p-8 rounded-2xl bg-dark-950 border border-neutral-800 flex flex-col justify-between font-sans relative overflow-hidden">
+                        <div class="space-y-2">
+                            <span class="text-amber-500 text-xs font-bold tracking-widest uppercase">MAP GUIDE</span>
+                            <h3 class="text-xl font-bold text-white">中央広場アクセスマップ</h3>
+                        </div>
+
+                        <div class="my-8 p-6 rounded-xl bg-dark-900 border border-neutral-800 space-y-6 relative">
+                            <div class="flex items-center justify-between text-xs text-neutral-500 border-b border-neutral-800 pb-2">
+                                <span>[正門ゲート]</span>
+                                <span class="text-amber-500 font-bold">↑ メインストリート ↑</span>
+                                <span>[本部棟]</span>
+                            </div>
+
+                            <div class="grid grid-cols-3 gap-3 text-center my-4">
+                                <div class="p-3 rounded-lg bg-dark-950 border border-neutral-800 text-xs text-neutral-400 flex items-center justify-center">
+                                    図書館
+                                </div>
+                                <div class="p-4 rounded-xl bg-amber-500 text-dark-950 font-black text-xs shadow-xl animate-pulse flex flex-col items-center justify-center gap-1">
+                                    <i class="fa-solid fa-star"></i>
+                                    <span>ワッフルブース (No.04)</span>
+                                </div>
+                                <div class="p-3 rounded-lg bg-dark-950 border border-neutral-800 text-xs text-neutral-400 flex items-center justify-center">
+                                    学食棟
+                                </div>
+                            </div>
+
+                            <div class="text-center text-[11px] text-neutral-400">
+                                時計台のすぐ下、香ばしい甘い香りが目印です！
+                            </div>
+                        </div>
+
+                        <div class="p-4 rounded-xl bg-dark-900 border border-neutral-800 text-xs text-neutral-400 text-center">
+                            学生スタッフ一同、皆さまのお越しを心よりお待ちしています！
+                        </div>
+                    </div>
+
+                </div>
+
+            </div>
+        </section>
+    </main>
+
+    <!-- フッター -->
+    <footer class="bg-dark-950 border-t border-neutral-800/80 py-12 font-sans">
+        <div class="max-w-6xl mx-auto px-4 sm:px-6 text-center space-y-6">
+            
+            <div class="flex items-center justify-center gap-3">
+                <div class="w-8 h-8 rounded-lg bg-amber-500 text-dark-950 flex items-center justify-center font-bold">
+                    <i class="fa-solid fa-stroopwafel"></i>
+                </div>
+                <span class="text-lg font-bold text-white tracking-widest">OCワッフル</span>
+            </div>
+
+            <p class="text-xs text-neutral-500 max-w-md mx-auto leading-relaxed">
+                文化祭・オープンキャンパス企画 | 学生有志チームによるレシピ開発・ブース運営プロジェクト
+            </p>
+
+            <div class="text-[11px] text-neutral-600 pt-4 border-t border-neutral-900">
+                &copy; 2026 OCワッフル Project. All Rights Reserved.
+            </div>
+
+        </div>
+    </footer>
+
+    <script>
+        /* 診断ロジック */
+        const diagnosisData = {
+            butter: {
+                name: '【発酵バターワッフル】',
+                desc: '発酵バターの芳醇な香りと、ベルギー産パールシュガーのシャリッとした食感をストレートに味わえる王道フレーバー。迷ったらまずはこれ！'
+            },
+            choco: {
+                name: '【チョコワッフル】',
+                desc: '出来たて熱々の生地の上でとろける濃厚ベルギー産チョコレート。甘党の方やご褒美スイーツにぴったりの満足度抜群ワッフルです。'
+            },
+            matcha: {
+                name: '【抹茶ワッフル】',
+                desc: '京都宇治抹茶の深みあるほろ苦さと北海道産あずきの品のある甘さ。和の風味を存分に楽しめる極上の和洋折衷ワッフルです。'
+            },
+            caramel: {
+                name: '【キャラメルワッフル】',
+                desc: 'ほろ苦く香ばしい焦がしキャラメルソースとふんわり広がるシナモン。カフェのようなリッチな贅沢感を味わいたい方に最適です。'
+            },
+            strawberry: {
+                name: '【ストロベリーワッフル】',
+                desc: '果肉感溢れる甘酸っぱいイチゴソースとマイルドな甘さ。見た目も華やかで甘さと酸味の絶妙なハーモニーを楽しめます。'
+            }
+        };
+
+        function diagnose(type) {
+            const resultBox = document.getElementById('quiz-result');
+            const options = document.getElementById('quiz-options');
+            const resultName = document.getElementById('result-name');
+            const resultDesc = document.getElementById('result-desc');
+
+            const item = diagnosisData[type];
+            if (item) {
+                resultName.textContent = item.name;
+                resultDesc.textContent = item.desc;
+
+                options.classList.add('hidden');
+                resultBox.classList.remove('hidden');
+            }
+        }
+
+        function resetDiagnosis() {
+            const resultBox = document.getElementById('quiz-result');
+            const options = document.getElementById('quiz-options');
+
+            resultBox.classList.add('hidden');
+            options.classList.remove('hidden');
+        }
+
+        /* 場所情報コピー処理 */
+        function copyLocationInfo() {
+            const text = "【OCワッフル】場所：キャンパス中央広場 学生ブース No.04（毎時00分/30分 焼き上がり）";
+            
+            const textarea = document.createElement("textarea");
+            textarea.value = text;
+            document.body.appendChild(textarea);
+            textarea.select();
+            document.execCommand("copy");
+            document.body.removeChild(textarea);
+
+            const btnLabel = document.getElementById('copy-btn-label');
+            const originalText = btnLabel.textContent;
+            btnLabel.textContent = "コピー完了！ブースでお待ちしております";
+            
+            setTimeout(() => {
+                btnLabel.textContent = originalText;
+            }, 3000);
+        }
+    </script>
+</body>
+</html>
