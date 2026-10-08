@@ -105,6 +105,7 @@
             
             <nav class="hidden md:flex items-center gap-8 font-sans text-xs tracking-widest text-neutral-300 font-semibold uppercase">
                 <a href="#menu" class="hover:text-amber-400 transition-colors">自慢のメニュー</a>
+                <a href="#ranking" class="hover:text-amber-400 transition-colors">人気ランキング</a>
                 <a href="#rice-flour" class="hover:text-amber-400 transition-colors">米粉のこだわり</a>
                 <a href="#concept" class="hover:text-amber-400 transition-colors">学生たちの挑戦</a>
                 <a href="#commitments" class="hover:text-amber-400 transition-colors">4つの理由</a>
@@ -309,6 +310,41 @@
                 </div>
             </div>
         </section>
+
+        
+        <!-- 人気ランキングセクション -->
+        
+<!-- 【人気ランキング】自動販売数連動 -->
+<section id="ranking" class="py-24 bg-dark-900 border-y border-neutral-800/80">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+
+        <div class="text-center mb-14">
+            <p class="font-display text-amber-400 text-sm tracking-[0.3em] mb-3">
+                POPULAR RANKING
+            </p>
+
+            <h2 class="font-serif text-3xl md:text-4xl font-bold">
+                本日の人気ランキング
+            </h2>
+
+            <p class="text-neutral-500 mt-4">
+                スタッフが入力した販売数をリアルタイムに反映します
+            </p>
+        </div>
+
+        <div id="ranking-list" class="max-w-3xl mx-auto space-y-4"></div>
+
+        <div class="text-center mt-8">
+            <a href="staff.html"
+               class="inline-flex items-center gap-2 border border-neutral-700 rounded-xl px-5 py-3 text-sm text-neutral-400 hover:text-amber-400 hover:border-amber-500 transition">
+                <i class="fa-solid fa-chart-column"></i>
+                スタッフ販売管理
+            </a>
+        </div>
+
+    </div>
+</section>
+
 
         <!-- 【2ページ目】メニューセクション (ヒーローの直後に配置) -->
         <section id="menu" class="py-24 bg-dark-900 border-t border-neutral-800 relative">
@@ -920,6 +956,100 @@ document.addEventListener("DOMContentLoaded", function () {
         });
     });
 });
+</script>
+
+
+<script>
+(function () {
+    const STORAGE_KEY = "oc-waffle-sales";
+
+    const PRODUCTS = [
+        { id: "chocolate", name: "チョコワッフル", icon: "🍫" },
+        { id: "strawberry", name: "ストロベリーワッフル", icon: "🍓" },
+        { id: "matcha", name: "抹茶ワッフル", icon: "🍵" },
+        { id: "caramel", name: "キャラメルワッフル", icon: "🍯" },
+        { id: "plain", name: "プレーンワッフル", icon: "🧇" }
+    ];
+
+    function getSales() {
+        try {
+            return JSON.parse(localStorage.getItem(STORAGE_KEY)) || {};
+        } catch {
+            return {};
+        }
+    }
+
+    function renderRanking() {
+        const container = document.getElementById("ranking-list");
+
+        if (!container) return;
+
+        const sales = getSales();
+
+        const sorted = [...PRODUCTS].sort(
+            (a, b) => (sales[b.id] || 0) - (sales[a.id] || 0)
+        );
+
+        const maxSales = Math.max(
+            1,
+            ...sorted.map(product => sales[product.id] || 0)
+        );
+
+        container.innerHTML = sorted.map((product, index) => {
+            const count = sales[product.id] || 0;
+            const width = Math.max(4, (count / maxSales) * 100);
+
+            let rankClass = "border-neutral-800";
+            let rankNumber = index + 1;
+
+            if (index === 0 && count > 0) {
+                rankClass = "border-amber-500/70";
+                rankNumber = "🏆";
+            }
+
+            return `
+                <div class="rounded-2xl border ${rankClass} bg-dark-950/80 p-5">
+                    <div class="flex items-center gap-4">
+
+                        <div class="w-12 h-12 rounded-xl flex items-center justify-center bg-neutral-900 text-lg font-bold text-amber-400">
+                            ${rankNumber}
+                        </div>
+
+                        <div class="text-2xl">
+                            ${product.icon}
+                        </div>
+
+                        <div class="flex-1">
+                            <div class="flex justify-between items-center gap-4">
+                                <h3 class="font-serif font-bold">
+                                    ${product.name}
+                                </h3>
+
+                                <span class="font-bold text-amber-400 whitespace-nowrap">
+                                    ${count}個
+                                </span>
+                            </div>
+
+                            <div class="mt-3 h-2 bg-neutral-800 rounded-full overflow-hidden">
+                                <div
+                                    class="h-full bg-gradient-to-r from-amber-600 to-amber-300 rounded-full transition-all duration-500"
+                                    style="width:${width}%"
+                                ></div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            `;
+        }).join("");
+    }
+
+    renderRanking();
+
+    window.addEventListener("storage", renderRanking);
+
+    setInterval(renderRanking, 1000);
+})();
 </script>
 
 </body>
