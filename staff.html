@@ -1,0 +1,442 @@
+<!DOCTYPE html>
+
+<div id="password-screen"
+     class="fixed inset-0 z-[9999] bg-black flex items-center justify-center px-5">
+
+    <div class="w-full max-w-md rounded-3xl border border-neutral-800 bg-neutral-950 p-8 shadow-2xl">
+
+        <div class="text-center mb-8">
+            <p class="font-display tracking-[0.3em] text-amber-400 text-sm">
+                OC WAFFLE
+            </p>
+
+            <div class="w-16 h-16 rounded-2xl bg-neutral-900 border border-neutral-800 flex items-center justify-center mx-auto mt-5">
+                <i class="fa-solid fa-lock text-amber-400 text-2xl"></i>
+            </div>
+
+            <h1 class="font-serif text-2xl font-bold mt-5">
+                スタッフ専用ページ
+            </h1>
+
+            <p class="text-neutral-500 text-sm mt-2">
+                パスワードを入力してください
+            </p>
+        </div>
+
+        <form id="password-form">
+
+            <input
+                id="staff-password"
+                type="password"
+                autocomplete="off"
+                placeholder="パスワード"
+                class="w-full rounded-xl border border-neutral-700 bg-neutral-900 px-4 py-4 text-white outline-none focus:border-amber-500 transition"
+            >
+
+            <p id="password-error"
+               class="hidden text-red-400 text-sm mt-3 text-center">
+                パスワードが違います
+            </p>
+
+            <button
+                type="submit"
+                class="w-full mt-5 rounded-xl bg-amber-500 py-4 text-black font-bold hover:bg-amber-400 transition">
+                <i class="fa-solid fa-right-to-bracket mr-2"></i>
+                スタッフページを開く
+            </button>
+
+        </form>
+
+    </div>
+</div>
+
+
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OCワッフル | スタッフ管理</title>
+
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;600;700&family=Noto+Serif+JP:wght@500;600;700&family=Plus+Jakarta+Sans:wght@500;600;700&display=swap" rel="stylesheet">
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        dark: {
+                            950: '#050505',
+                            900: '#0a0a0a',
+                            800: '#111111'
+                        },
+                        amber: {
+                            400: '#fbbf24',
+                            500: '#f59e0b',
+                            600: '#d97706'
+                        }
+                    },
+                    fontFamily: {
+                        serif: ['Noto Serif JP', 'serif'],
+                        display: ['Cinzel', 'serif'],
+                        sans: ['Plus Jakarta Sans', 'sans-serif']
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+
+<body class="bg-dark-950 text-white min-h-screen">
+
+    <header class="border-b border-neutral-800 bg-black/90">
+        <div class="max-w-5xl mx-auto px-5 py-5 flex items-center justify-between">
+            <div>
+                <p class="font-display tracking-[0.25em] text-amber-400 text-sm">
+                    OC WAFFLE
+                </p>
+                <h1 class="font-serif text-xl font-bold mt-1">
+                    スタッフ販売管理
+                </h1>
+            </div>
+
+            <div class="flex items-center gap-2">
+
+                <a href="index.html"
+                   class="border border-neutral-700 rounded-xl px-4 py-3 text-sm text-neutral-300 hover:text-amber-400 hover:border-amber-500 transition">
+                    <i class="fa-solid fa-arrow-left mr-2"></i>
+                    <span class="hidden sm:inline">お客さん画面</span>
+                </a>
+
+                <button
+                    onclick="logoutStaff()"
+                    class="border border-red-900/80 text-red-400 rounded-xl px-4 py-3 text-sm hover:bg-red-950/50 transition">
+                    <i class="fa-solid fa-right-from-bracket mr-2"></i>
+                    <span class="hidden sm:inline">ログアウト</span>
+                </button>
+
+            </div>
+        </div>
+    </header>
+
+    <main class="max-w-5xl mx-auto px-5 py-8">
+
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
+
+            <div class="rounded-2xl border border-neutral-800 bg-dark-900 p-5">
+                <p class="text-xs text-neutral-500 tracking-widest">TODAY</p>
+                <p id="total-sales" class="text-3xl font-bold text-amber-400 mt-2">0</p>
+                <p class="text-sm text-neutral-500 mt-1">販売個数</p>
+            </div>
+
+            <div class="rounded-2xl border border-neutral-800 bg-dark-900 p-5">
+                <p class="text-xs text-neutral-500 tracking-widest">REVENUE</p>
+                <p id="total-revenue" class="text-3xl font-bold mt-2">¥0</p>
+                <p class="text-sm text-neutral-500 mt-1">売上金額</p>
+            </div>
+
+            <div class="rounded-2xl border border-neutral-800 bg-dark-900 p-5">
+                <p class="text-xs text-neutral-500 tracking-widest">TOP</p>
+                <p id="top-item" class="text-xl font-bold mt-3">---</p>
+                <p class="text-sm text-neutral-500 mt-1">現在1位</p>
+            </div>
+
+            <div class="rounded-2xl border border-neutral-800 bg-dark-900 p-5">
+                <p class="text-xs text-neutral-500 tracking-widest">ITEMS</p>
+                <p class="text-3xl font-bold mt-2">5</p>
+                <p class="text-sm text-neutral-500 mt-1">メニュー数</p>
+            </div>
+
+        </div>
+
+        <div class="flex items-center justify-between mb-5">
+            <div>
+                <p class="text-xs tracking-[0.25em] text-amber-400">
+                    SALES CONTROL
+                </p>
+                <h2 class="font-serif text-2xl font-bold mt-1">
+                    販売数を管理
+                </h2>
+            </div>
+
+            <button onclick="resetSales()"
+                    class="text-xs border border-red-900 text-red-400 px-4 py-2 rounded-lg hover:bg-red-950 transition">
+                <i class="fa-solid fa-rotate-left mr-1"></i>
+                全データをリセット
+            </button>
+        </div>
+
+        <div id="product-list" class="space-y-4"></div>
+
+        <div class="mt-8 rounded-2xl border border-amber-500/30 bg-amber-500/5 p-5">
+            <div class="flex gap-3">
+                <i class="fa-solid fa-circle-info text-amber-400 mt-1"></i>
+                <div>
+                    <p class="font-bold">使い方</p>
+                    <p class="text-sm text-neutral-400 mt-2 leading-7">
+                        実際に商品が1個売れたら「＋1」を押してください。
+                        複数個まとめて売れた場合は「＋5」などを使用できます。
+                        数字は自動保存され、お客さん向けサイトの人気ランキングにも反映されます。
+                    </p>
+                </div>
+            </div>
+        </div>
+
+    </main>
+
+    <script>
+        const PRODUCTS = [
+            {
+                id: "chocolate",
+                name: "チョコワッフル",
+                price: 350,
+                icon: "🍫"
+            },
+            {
+                id: "strawberry",
+                name: "ストロベリーワッフル",
+                price: 400,
+                icon: "🍓"
+            },
+            {
+                id: "matcha",
+                name: "抹茶ワッフル",
+                price: 400,
+                icon: "🍵"
+            },
+            {
+                id: "caramel",
+                name: "キャラメルワッフル",
+                price: 350,
+                icon: "🍯"
+            },
+            {
+                id: "plain",
+                name: "プレーンワッフル",
+                price: 300,
+                icon: "🧇"
+            }
+        ];
+
+        const STORAGE_KEY = "oc-waffle-sales";
+
+        function getSales() {
+            const saved = localStorage.getItem(STORAGE_KEY);
+
+            if (!saved) {
+                return {
+                    chocolate: 0,
+                    strawberry: 0,
+                    matcha: 0,
+                    caramel: 0,
+                    plain: 0
+                };
+            }
+
+            try {
+                return JSON.parse(saved);
+            } catch {
+                return {};
+            }
+        }
+
+        function saveSales(sales) {
+            localStorage.setItem(STORAGE_KEY, JSON.stringify(sales));
+            render();
+        }
+
+        function addSales(id, amount) {
+            const sales = getSales();
+
+            sales[id] = (sales[id] || 0) + amount;
+
+            saveSales(sales);
+        }
+
+        function removeSales(id) {
+            const sales = getSales();
+
+            sales[id] = Math.max(0, (sales[id] || 0) - 1);
+
+            saveSales(sales);
+        }
+
+        function resetSales() {
+            const ok = confirm(
+                "販売数をすべて0に戻します。\n本当にリセットしますか？"
+            );
+
+            if (!ok) return;
+
+            localStorage.removeItem(STORAGE_KEY);
+            render();
+        }
+
+        function render() {
+            const sales = getSales();
+
+            const sorted = [...PRODUCTS].sort(
+                (a, b) => (sales[b.id] || 0) - (sales[a.id] || 0)
+            );
+
+            const totalSales = PRODUCTS.reduce(
+                (sum, product) => sum + (sales[product.id] || 0),
+                0
+            );
+
+            const totalRevenue = PRODUCTS.reduce(
+                (sum, product) =>
+                    sum + (sales[product.id] || 0) * product.price,
+                0
+            );
+
+            document.getElementById("total-sales").textContent = totalSales;
+            document.getElementById("total-revenue").textContent =
+                "¥" + totalRevenue.toLocaleString();
+
+            document.getElementById("top-item").textContent =
+                sorted[0] && (sales[sorted[0].id] || 0) > 0
+                    ? sorted[0].name
+                    : "---";
+
+            const list = document.getElementById("product-list");
+
+            list.innerHTML = sorted.map((product, index) => {
+                const count = sales[product.id] || 0;
+
+                return `
+                    <div class="rounded-2xl border ${
+                        index === 0 && count > 0
+                            ? "border-amber-500/60"
+                            : "border-neutral-800"
+                    } bg-dark-900 p-5">
+
+                        <div class="flex flex-col md:flex-row md:items-center gap-4">
+
+                            <div class="flex-1 flex items-center gap-4">
+
+                                <div class="w-14 h-14 rounded-xl bg-neutral-800 flex items-center justify-center text-2xl">
+                                    ${product.icon}
+                                </div>
+
+                                <div>
+                                    <div class="flex items-center gap-2">
+                                        <h3 class="font-serif text-lg font-bold">
+                                            ${product.name}
+                                        </h3>
+
+                                        ${
+                                            index === 0 && count > 0
+                                                ? '<span class="text-xs text-amber-400">🏆 1位</span>'
+                                                : ""
+                                        }
+                                    </div>
+
+                                    <p class="text-sm text-neutral-500 mt-1">
+                                        ¥${product.price.toLocaleString()} / 個
+                                    </p>
+                                </div>
+
+                            </div>
+
+                            <div class="flex items-center gap-2">
+
+                                <button onclick="removeSales('${product.id}')"
+                                        class="w-11 h-11 rounded-xl border border-neutral-700 text-neutral-400 hover:text-white hover:border-neutral-500">
+                                    −
+                                </button>
+
+                                <div class="w-24 text-center">
+                                    <p class="text-3xl font-bold">
+                                        ${count}
+                                    </p>
+                                    <p class="text-xs text-neutral-500">
+                                        個
+                                    </p>
+                                </div>
+
+                                <button onclick="addSales('${product.id}', 1)"
+                                        class="h-11 px-4 rounded-xl bg-amber-500 text-black font-bold hover:bg-amber-400 transition">
+                                    ＋1
+                                </button>
+
+                                <button onclick="addSales('${product.id}', 5)"
+                                        class="h-11 px-4 rounded-xl border border-amber-500/50 text-amber-400 font-bold hover:bg-amber-500/10 transition">
+                                    ＋5
+                                </button>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+                `;
+            }).join("");
+        }
+
+        window.addEventListener("storage", render);
+
+        render();
+    </script>
+
+
+<script>
+(function () {
+
+    const CORRECT_PASSWORD = "2026oc-waffle";
+
+    const screen = document.getElementById("password-screen");
+    const form = document.getElementById("password-form");
+    const input = document.getElementById("staff-password");
+    const error = document.getElementById("password-error");
+
+    if (!screen || !form) return;
+
+    form.addEventListener("submit", function (event) {
+
+        event.preventDefault();
+
+        if (input.value === CORRECT_PASSWORD) {
+
+            sessionStorage.setItem("oc-waffle-staff-auth", "true");
+
+            screen.style.display = "none";
+
+        } else {
+
+            error.classList.remove("hidden");
+
+            input.value = "";
+            input.focus();
+
+        }
+
+    });
+
+    if (sessionStorage.getItem("oc-waffle-staff-auth") === "true") {
+        screen.style.display = "none";
+    }
+
+})();
+</script>
+
+
+<script>
+function logoutStaff() {
+    const ok = confirm("スタッフページからログアウトしますか？");
+
+    if (!ok) return;
+
+    sessionStorage.removeItem("oc-waffle-staff-auth");
+
+    window.location.href = "staff.html";
+}
+</script>
+\n</body>
+</html>
