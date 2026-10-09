@@ -362,12 +362,12 @@
 
                 <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-6">
                     
-                    <!-- 1. バター -->
+                    <!-- 1. プレーン -->
                     <div class="bg-dark-950 rounded-2xl overflow-hidden border border-neutral-800 gold-border-glow transition-all duration-300 flex flex-col justify-between group">
                         <div>
                             <div class="relative h-48 overflow-hidden">
                                 <img src="images/butter.jpg" 
-                                     alt="極上発酵バター" 
+                                     alt="極上プレーン" 
                                      class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500 filter brightness-90">
                                 <span class="absolute top-3 left-3 bg-amber-500 text-dark-950 font-sans font-black text-[10px] tracking-wider px-2.5 py-1 rounded-full uppercase">
                                     人気No.1王道
@@ -377,7 +377,7 @@
                                 <span class="text-amber-500 text-[11px] font-sans font-bold">Classic Fermented Butter</span>
                                 <h3 class="text-lg font-bold text-white">プレーン</h3>
                                 <p class="text-xs text-neutral-400 font-sans leading-relaxed">
-                                    北海道産発酵バターの豊かなコクと、ベルギー産パールシュガーのシャリッとした食感が引き立つ定番。
+                                    独自な米粉のモチモチ感と、ベルギー産パールシュガーのシャリッとした食感が引き立つ定番。
                                 </p>
                             </div>
                         </div>
@@ -518,7 +518,7 @@
                                 文化祭に来てくださるみなさまに「本当に美味しい一品」と「楽しい大学生活の雰囲気」を感じてほしい——そんな想いから「OCワッフル」はスタートしました。
                             </p>
                             <p>
-                                市販の生地に頼らず、北海道産小麦の配合や発酵時間、プレス機の温度管理まで何度も実験。5つの個性豊かなフレーバー（バター、チョコ、抹茶、キャラメル、ストロベリー）をゼロから生み出しました。
+                                市販の生地に頼らず、北海道産小麦の配合や発酵時間、プレス機の温度管理まで何度も実験。5つの個性豊かなフレーバー（プレーン、チョコ、抹茶、キャラメル、ストロベリー）をゼロから生み出しました。
                             </p>
                             <p class="text-neutral-200 font-semibold border-l-2 border-amber-500 pl-4 py-1">
                                 店舗の企画運営だけでなく、この特設サイトの制作やブース装飾まで全て学生が行なっています。私たちの本気をぜひ味わってください！
@@ -529,7 +529,7 @@
                             <div class="p-4 rounded-xl bg-dark-900 border border-neutral-800">
                                 <i class="fa-solid fa-wheat-awn text-amber-500 text-xl mb-2"></i>
                                 <h3 class="text-sm font-bold text-white">厳選された素材</h3>
-                                <p class="text-xs text-neutral-400 mt-1">発酵バターとベルギー産パールシュガーを使用</p>
+                                <p class="text-xs text-neutral-400 mt-1">独自の米粉生地とベルギー産パールシュガーを使用</p>
                             </div>
                             <div class="p-4 rounded-xl bg-dark-900 border border-neutral-800">
                                 <i class="fa-solid fa-fire text-amber-500 text-xl mb-2"></i>
@@ -608,9 +608,9 @@
                                 <i class="fa-solid fa-award"></i>
                             </div>
                             <span class="text-xs font-sans font-bold text-amber-500 tracking-widest uppercase block">VALUE 02</span>
-                            <h3 class="text-2xl font-bold text-white">芳醇な国産発酵バター100%使用</h3>
+                            <h3 class="text-2xl font-bold text-white">独自の米粉生地</h3>
                             <p class="text-neutral-300 font-sans text-sm leading-relaxed">
-                                口に入れた瞬間に広がるリッチな風味。一般的なマーガリン等は使用せず、風味豊かな純国産の発酵バターとベルギー産パールシュガーを贅沢に織り込んでいます。
+                                口に入れた瞬間に広がるリッチな風味。一般的なマーガリン等は使用せず、風味豊かな独自の米粉生地とベルギー産パールシュガーを贅沢に織り込んでいます。
                             </p>
                         </div>
                         <div class="pt-4 border-t border-neutral-800/80 flex items-center gap-2 text-xs text-neutral-400 font-sans">
@@ -684,8 +684,8 @@
 
                         <!-- クイズボタン -->
                         <div id="quiz-options" class="space-y-3 max-w-xl mx-auto">
-                            <button onclick="diagnose('butter')" class="w-full p-4 rounded-xl bg-dark-950 hover:bg-neutral-800 border border-neutral-800 text-left text-sm font-semibold text-neutral-200 transition-all flex items-center justify-between group">
-                                <span>✨ バター本来の豊かなコクとシンプルな香ばしさを楽しみたい</span>
+                            <button onclick="diagnose('plain')" class="w-full p-4 rounded-xl bg-dark-950 hover:bg-neutral-800 border border-neutral-800 text-left text-sm font-semibold text-neutral-200 transition-all flex items-center justify-between group">
+                                <span>✨ 米粉本来の豊かなコクとシンプルな香ばしさを楽しみたい</span>
                                 <i class="fa-solid fa-arrow-right text-amber-500 opacity-0 group-hover:opacity-100 transition-opacity"></i>
                             </button>
                             <button onclick="diagnose('choco')" class="w-full p-4 rounded-xl bg-dark-950 hover:bg-neutral-800 border border-neutral-800 text-left text-sm font-semibold text-neutral-200 transition-all flex items-center justify-between group">
@@ -862,7 +862,7 @@
         const diagnosisData = {
             butter: {
                 name: '【プレーンワッフル】',
-                desc: '発酵バターの芳醇な香りと、ベルギー産パールシュガーのシャリッとした食感をストレートに味わえる王道フレーバー。迷ったらまずはこれ！'
+                desc: '米粉独自の芳醇な香りと、ベルギー産パールシュガーのシャリッとした食感をストレートに味わえる王道フレーバー。迷ったらまずはこれ！'
             },
             choco: {
                 name: '【チョコワッフル】',
