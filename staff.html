@@ -91,6 +91,9 @@
             }
         }
     </script>
+    <script src="supabase-config.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
 </head>
 
 <body class="bg-dark-950 text-white min-h-screen">
@@ -191,252 +194,282 @@
     </main>
 
     <script>
-        const PRODUCTS = [
-            {
-                id: "chocolate",
-                name: "チョコワッフル",
-                price: 300,
-                icon: "🍫"
-            },
-            {
-                id: "strawberry",
-                name: "ストロベリーワッフル",
-                price: 320,
-                icon: "🍓"
-            },
-            {
-                id: "matcha",
-                name: "抹茶ワッフル",
-                price: 300,
-                icon: "🍵"
-            },
-            {
-                id: "caramel",
-                name: "キャラメルワッフル",
-                price: 300,
-                icon: "🍯"
-            },
-            {
-                id: "plain",
-                name: "プレーンワッフル",
-                price: 300,
-                icon: "🧇"
-            }
-        ];
+const PRODUCTS = [
+    { id: "chocolate", name: "チョコワッフル", price: 300, icon: "🍫" },
+    { id: "strawberry", name: "ストロベリーワッフル", price: 320, icon: "🍓" },
+    { id: "matcha", name: "抹茶ワッフル", price: 300, icon: "🍵" },
+    { id: "caramel", name: "キャラメルワッフル", price: 300, icon: "🍯" },
+    { id: "plain", name: "プレーンワッフル", price: 300, icon: "🧇" }
+];
 
-        const STORAGE_KEY = "oc-waffle-sales";
+const config = window.OC_WAFFLE_SUPABASE;
+if (!config || !window.supabase) {
+    throw new Error("Supabaseの設定またはライブラリを読み込めませんでした。");
+}
 
-        function getSales() {
-            const saved = localStorage.getItem(STORAGE_KEY);
+const db = window.ocWaffleSupabaseClient ||
+    (window.ocWaffleSupabaseClient =
+        window.supabase.createClient(config.url, config.publishableKey));
 
-            if (!saved) {
-                return {
-                    chocolate: 0,
-                    strawberry: 0,
-                    matcha: 0,
-                    caramel: 0,
-                    plain: 0
-                };
-            }
+let sales = {
+    chocolate: 0, strawberry: 0, matcha: 0, caramel: 0, plain: 0
+};
 
-            try {
-                return JSON.parse(saved);
-            } catch {
-                return {};
-            }
+async function loadSales() {
+    const { data, error } = await db
+        .from("product_sales")
+        .select("product_id,sales_count");
+
+    if (error) {
+        console.error("売上取得エラー:", error.message);
+        return;
+    }
+
+    for (const product of PRODUCTS) {
+        sales[product.id] = 0;
+    }
+    for (const row of data || []) {
+        if (Object.prototype.hasOwnProperty.call(sales, row.product_id)) {
+            sales[row.product_id] = Number(row.sales_count) || 0;
         }
+    }
+    render();
+}
 
-        function saveSales(sales) {
-            localStorage.setItem(STORAGE_KEY, JSON.stringify(sales));
-            render();
-        }
+async function addSales(id, amount) {
+    if (!PRODUCTS.some(product => product.id === id)) return;
+    if (![1, 5].includes(amount)) return;
 
-        function addSales(id, amount) {
-            const sales = getSales();
+    const { error } = await db.rpc("change_product_sales", {
+        p_product_id: id,
+        p_amount: amount
+    });
 
-            sales[id] = (sales[id] || 0) + amount;
+    if (error) {
+        alert("売上を更新できませんでした。ログイン状態とデータベース設定を確認してください。\n" + error.message);
+        return;
+    }
+    await loadSales();
+}
 
-            saveSales(sales);
-        }
+async function removeSales(id) {
+    if (!PRODUCTS.some(product => product.id === id)) return;
 
-        function removeSales(id) {
-            const sales = getSales();
+    const { error } = await db.rpc("change_product_sales", {
+        p_product_id: id,
+        p_amount: -1
+    });
 
-            sales[id] = Math.max(0, (sales[id] || 0) - 1);
+    if (error) {
+        alert("売上を更新できませんでした。\n" + error.message);
+        return;
+    }
+    await loadSales();
+}
 
-            saveSales(sales);
-        }
+async function resetSales() {
+    const ok = confirm("全商品の販売数を0に戻します。本当にリセットしますか？");
+    if (!ok) return;
 
-        function resetSales() {
-            const ok = confirm(
-                "販売数をすべて0に戻します。\n本当にリセットしますか？"
-            );
+    const { error } = await db.rpc("reset_product_sales");
 
-            if (!ok) return;
+    if (error) {
+        alert("リセットできませんでした。\n" + error.message);
+        return;
+    }
+    await loadSales();
+}
 
-            localStorage.removeItem(STORAGE_KEY);
-            render();
-        }
+function render() {
+    const sorted = [...PRODUCTS].sort(
+        (a, b) => (sales[b.id] || 0) - (sales[a.id] || 0)
+    );
 
-        function render() {
-            const sales = getSales();
+    const totalSales = PRODUCTS.reduce(
+        (sum, product) => sum + (sales[product.id] || 0), 0
+    );
 
-            const sorted = [...PRODUCTS].sort(
-                (a, b) => (sales[b.id] || 0) - (sales[a.id] || 0)
-            );
+    const totalRevenue = PRODUCTS.reduce(
+        (sum, product) => sum + (sales[product.id] || 0) * product.price, 0
+    );
 
-            const totalSales = PRODUCTS.reduce(
-                (sum, product) => sum + (sales[product.id] || 0),
-                0
-            );
+    const totalSalesElement = document.getElementById("total-sales");
+    const totalRevenueElement = document.getElementById("total-revenue");
+    const topItemElement = document.getElementById("top-item");
+    const list = document.getElementById("product-list");
 
-            const totalRevenue = PRODUCTS.reduce(
-                (sum, product) =>
-                    sum + (sales[product.id] || 0) * product.price,
-                0
-            );
+    if (totalSalesElement) totalSalesElement.textContent = totalSales;
+    if (totalRevenueElement) {
+        totalRevenueElement.textContent = "¥" + totalRevenue.toLocaleString();
+    }
+    if (topItemElement) {
+        topItemElement.textContent =
+            sorted[0] && (sales[sorted[0].id] || 0) > 0
+                ? sorted[0].name : "---";
+    }
+    if (!list) return;
 
-            document.getElementById("total-sales").textContent = totalSales;
-            document.getElementById("total-revenue").textContent =
-                "¥" + totalRevenue.toLocaleString();
-
-            document.getElementById("top-item").textContent =
-                sorted[0] && (sales[sorted[0].id] || 0) > 0
-                    ? sorted[0].name
-                    : "---";
-
-            const list = document.getElementById("product-list");
-
-            list.innerHTML = sorted.map((product, index) => {
-                const count = sales[product.id] || 0;
-
-                return `
-                    <div class="rounded-2xl border ${
-                        index === 0 && count > 0
-                            ? "border-amber-500/60"
-                            : "border-neutral-800"
-                    } bg-dark-900 p-5">
-
-                        <div class="flex flex-col md:flex-row md:items-center gap-4">
-
-                            <div class="flex-1 flex items-center gap-4">
-
-                                <div class="w-14 h-14 rounded-xl bg-neutral-800 flex items-center justify-center text-2xl">
-                                    ${product.icon}
-                                </div>
-
-                                <div>
-                                    <div class="flex items-center gap-2">
-                                        <h3 class="font-serif text-lg font-bold">
-                                            ${product.name}
-                                        </h3>
-
-                                        ${
-                                            index === 0 && count > 0
-                                                ? '<span class="text-xs text-amber-400">🏆 1位</span>'
-                                                : ""
-                                        }
-                                    </div>
-
-                                    <p class="text-sm text-neutral-500 mt-1">
-                                        ¥${product.price.toLocaleString()} / 個
-                                    </p>
-                                </div>
-
-                            </div>
-
-                            <div class="flex items-center gap-2">
-
-                                <button onclick="removeSales('${product.id}')"
-                                        class="w-11 h-11 rounded-xl border border-neutral-700 text-neutral-400 hover:text-white hover:border-neutral-500">
-                                    −
-                                </button>
-
-                                <div class="w-24 text-center">
-                                    <p class="text-3xl font-bold">
-                                        ${count}
-                                    </p>
-                                    <p class="text-xs text-neutral-500">
-                                        個
-                                    </p>
-                                </div>
-
-                                <button onclick="addSales('${product.id}', 1)"
-                                        class="h-11 px-4 rounded-xl bg-amber-500 text-black font-bold hover:bg-amber-400 transition">
-                                    ＋1
-                                </button>
-
-                                <button onclick="addSales('${product.id}', 5)"
-                                        class="h-11 px-4 rounded-xl border border-amber-500/50 text-amber-400 font-bold hover:bg-amber-500/10 transition">
-                                    ＋5
-                                </button>
-
-                            </div>
-
+    list.innerHTML = sorted.map((product, index) => {
+        const count = sales[product.id] || 0;
+        return `
+            <div class="rounded-2xl border ${
+                index === 0 && count > 0
+                    ? "border-amber-500/60" : "border-neutral-800"
+            } bg-dark-900 p-5">
+                <div class="flex flex-col md:flex-row md:items-center gap-4">
+                    <div class="flex-1 flex items-center gap-4">
+                        <div class="w-14 h-14 rounded-xl bg-neutral-800 flex items-center justify-center text-2xl">
+                            ${product.icon}
                         </div>
-
+                        <div>
+                            <div class="flex items-center gap-2">
+                                <h3 class="font-serif text-lg font-bold">${product.name}</h3>
+                                ${
+                                    index === 0 && count > 0
+                                        ? '<span class="text-xs text-amber-400">🏆 1位</span>'
+                                        : ""
+                                }
+                            </div>
+                            <p class="text-sm text-neutral-500 mt-1">
+                                ¥${product.price.toLocaleString()} / 個
+                            </p>
+                        </div>
                     </div>
-                `;
-            }).join("");
-        }
+                    <div class="flex items-center gap-2">
+                        <button onclick="removeSales('${product.id}')"
+                                class="w-11 h-11 rounded-xl border border-neutral-700 text-neutral-400 hover:text-white hover:border-neutral-500">−</button>
+                        <div class="w-24 text-center">
+                            <p class="text-3xl font-bold">${count}</p>
+                            <p class="text-xs text-neutral-500">個</p>
+                        </div>
+                        <button onclick="addSales('${product.id}', 1)"
+                                class="h-11 px-4 rounded-xl bg-amber-500 text-black font-bold hover:bg-amber-400 transition">＋1</button>
+                        <button onclick="addSales('${product.id}', 5)"
+                                class="h-11 px-4 rounded-xl border border-amber-500/50 text-amber-400 font-bold hover:bg-amber-500/10 transition">＋5</button>
+                    </div>
+                </div>
+            </div>
+        `;
+    }).join("");
+}
 
-        window.addEventListener("storage", render);
-
-        render();
+window.addEventListener("focus", loadSales);
+loadSales();
+setInterval(loadSales, 5000);
     </script>
 
 
 <script>
 (function () {
+    const config = window.OC_WAFFLE_SUPABASE;
+    if (!config || !window.supabase) {
+        console.error("Supabaseの設定またはライブラリがありません。");
+        return;
+    }
 
-    const CORRECT_PASSWORD = "2026oc-waffle";
+    const db = window.ocWaffleSupabaseClient ||
+        (window.ocWaffleSupabaseClient =
+            window.supabase.createClient(config.url, config.publishableKey));
 
     const screen = document.getElementById("password-screen");
     const form = document.getElementById("password-form");
-    const input = document.getElementById("staff-password");
+    const passwordInput = document.getElementById("staff-password");
     const error = document.getElementById("password-error");
 
-    if (!screen || !form) return;
+    if (!screen || !form || !passwordInput) return;
 
-    form.addEventListener("submit", function (event) {
+    // 既存のパスワード画面にメールアドレス欄を追加
+    const emailLabel = document.createElement("label");
+    emailLabel.className = "block text-sm text-neutral-300 mb-4";
+    emailLabel.textContent = "スタッフ用メールアドレス";
 
-        event.preventDefault();
+    const emailInput = document.createElement("input");
+    emailInput.type = "email";
+    emailInput.id = "staff-email";
+    emailInput.autocomplete = "username";
+    emailInput.required = true;
+    emailInput.placeholder = "登録したメールアドレス";
+    emailInput.className =
+        "mt-2 w-full rounded-xl border border-neutral-700 bg-neutral-900 px-4 py-3 text-white";
+    emailLabel.appendChild(emailInput);
+    form.prepend(emailLabel);
 
-        if (input.value === CORRECT_PASSWORD) {
+    passwordInput.autocomplete = "current-password";
+    passwordInput.placeholder = "Supabaseに登録したパスワード";
 
-            sessionStorage.setItem("oc-waffle-staff-auth", "true");
+    async function checkSession() {
+        const { data, error: sessionError } = await db.auth.getSession();
 
-            screen.style.display = "none";
-
-        } else {
-
-            error.classList.remove("hidden");
-
-            input.value = "";
-            input.focus();
-
+        if (sessionError) {
+            console.error("ログイン状態の確認に失敗:", sessionError.message);
         }
 
-    });
-
-    if (sessionStorage.getItem("oc-waffle-staff-auth") === "true") {
-        screen.style.display = "none";
+        screen.style.display = data && data.session ? "none" : "";
     }
 
+    form.addEventListener("submit", async function (event) {
+        event.preventDefault();
+
+        const email = emailInput.value.trim();
+        const password = passwordInput.value;
+        const submitButton = form.querySelector('button[type="submit"]');
+
+        if (submitButton) submitButton.disabled = true;
+        if (error) {
+            error.classList.add("hidden");
+            error.textContent = "";
+        }
+
+        try {
+            const { error: loginError } = await db.auth.signInWithPassword({
+                email,
+                password
+            });
+
+            if (loginError) throw loginError;
+
+            screen.style.display = "none";
+            passwordInput.value = "";
+        } catch (e) {
+            if (error) {
+                error.textContent =
+                    "ログインできません。メールアドレスとパスワード、スタッフアカウントの設定を確認してください。";
+                error.classList.remove("hidden");
+            } else {
+                alert("ログインできませんでした。\n" + e.message);
+            }
+            passwordInput.value = "";
+            passwordInput.focus();
+        } finally {
+            if (submitButton) submitButton.disabled = false;
+        }
+    });
+
+    db.auth.onAuthStateChange((_event, session) => {
+        screen.style.display = session ? "none" : "";
+    });
+
+    checkSession();
 })();
-</script>
+    </script>
 
 
 <script>
-function logoutStaff() {
+async function logoutStaff() {
     const ok = confirm("スタッフページからログアウトしますか？");
-
     if (!ok) return;
 
-    sessionStorage.removeItem("oc-waffle-staff-auth");
+    const config = window.OC_WAFFLE_SUPABASE;
+    const db = window.ocWaffleSupabaseClient ||
+        window.supabase.createClient(config.url, config.publishableKey);
 
+    const { error } = await db.auth.signOut();
+    if (error) {
+        alert("ログアウトできませんでした。\n" + error.message);
+        return;
+    }
     window.location.href = "staff.html";
 }
-</script>
+    </script>
 \n</body>
 </html>

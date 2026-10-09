@@ -87,6 +87,9 @@
             background: linear-gradient(to top, #0a0a0a 0%, rgba(10, 10, 10, 0.6) 50%, rgba(10, 10, 10, 0.3) 100%);
         }
     </style>
+    <script src="supabase-config.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
 </head>
 <body class="bg-dark-950 text-neutral-200 antialiased selection:bg-amber-600 selection:text-white">
 
@@ -961,8 +964,6 @@ document.addEventListener("DOMContentLoaded", function () {
 
 <script>
 (function () {
-    const STORAGE_KEY = "oc-waffle-sales";
-
     const PRODUCTS = [
         { id: "chocolate", name: "チョコワッフル", icon: "🍫" },
         { id: "strawberry", name: "ストロベリーワッフル", icon: "🍓" },
@@ -971,34 +972,34 @@ document.addEventListener("DOMContentLoaded", function () {
         { id: "plain", name: "プレーンワッフル", icon: "🧇" }
     ];
 
-    function getSales() {
-        try {
-            return JSON.parse(localStorage.getItem(STORAGE_KEY)) || {};
-        } catch {
-            return {};
-        }
+    const config = window.OC_WAFFLE_SUPABASE;
+    if (!config || !window.supabase) {
+        console.error("Supabaseの設定またはライブラリがありません。");
+        return;
     }
+
+    const db = window.ocWaffleSupabaseClient ||
+        (window.ocWaffleSupabaseClient =
+            window.supabase.createClient(config.url, config.publishableKey));
+
+    let sales = {
+        chocolate: 0, strawberry: 0, matcha: 0, caramel: 0, plain: 0
+    };
 
     function renderRanking() {
         const container = document.getElementById("ranking-list");
-
         if (!container) return;
-
-        const sales = getSales();
 
         const sorted = [...PRODUCTS].sort(
             (a, b) => (sales[b.id] || 0) - (sales[a.id] || 0)
         );
-
         const maxSales = Math.max(
-            1,
-            ...sorted.map(product => sales[product.id] || 0)
+            1, ...sorted.map(product => sales[product.id] || 0)
         );
 
         container.innerHTML = sorted.map((product, index) => {
             const count = sales[product.id] || 0;
             const width = Math.max(4, (count / maxSales) * 100);
-
             let rankClass = "border-neutral-800";
             let rankNumber = index + 1;
 
@@ -1010,47 +1011,52 @@ document.addEventListener("DOMContentLoaded", function () {
             return `
                 <div class="rounded-2xl border ${rankClass} bg-dark-950/80 p-5">
                     <div class="flex items-center gap-4">
-
                         <div class="w-12 h-12 rounded-xl flex items-center justify-center bg-neutral-900 text-lg font-bold text-amber-400">
                             ${rankNumber}
                         </div>
-
-                        <div class="text-2xl">
-                            ${product.icon}
-                        </div>
-
+                        <div class="text-2xl">${product.icon}</div>
                         <div class="flex-1">
                             <div class="flex justify-between items-center gap-4">
-                                <h3 class="font-serif font-bold">
-                                    ${product.name}
-                                </h3>
-
-                                <span class="font-bold text-amber-400 whitespace-nowrap">
-                                    ${count}個
-                                </span>
+                                <h3 class="font-serif font-bold">${product.name}</h3>
+                                <span class="font-bold text-amber-400 whitespace-nowrap">${count}個</span>
                             </div>
-
                             <div class="mt-3 h-2 bg-neutral-800 rounded-full overflow-hidden">
-                                <div
-                                    class="h-full bg-gradient-to-r from-amber-600 to-amber-300 rounded-full transition-all duration-500"
-                                    style="width:${width}%"
-                                ></div>
+                                <div class="h-full bg-gradient-to-r from-amber-600 to-amber-300 rounded-full transition-all duration-500"
+                                     style="width:${width}%"></div>
                             </div>
                         </div>
-
                     </div>
                 </div>
             `;
         }).join("");
     }
 
-    renderRanking();
+    async function loadRanking() {
+        const { data, error } = await db
+            .from("product_sales")
+            .select("product_id,sales_count");
 
-    window.addEventListener("storage", renderRanking);
+        if (error) {
+            console.error("ランキング取得エラー:", error.message);
+            return;
+        }
 
-    setInterval(renderRanking, 1000);
+        for (const product of PRODUCTS) {
+            sales[product.id] = 0;
+        }
+        for (const row of data || []) {
+            if (Object.prototype.hasOwnProperty.call(sales, row.product_id)) {
+                sales[row.product_id] = Number(row.sales_count) || 0;
+            }
+        }
+        renderRanking();
+    }
+
+    loadRanking();
+    setInterval(loadRanking, 5000);
+    window.addEventListener("focus", loadRanking);
 })();
-</script>
+    </script>
 
 </body>
 </html>
